@@ -1,6 +1,14 @@
-import { Task } from './task.model';
+import { Task, TaskStatus } from './task.model';
 import { TasksService } from './tasks.service';
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createTaskDto } from './dto/create-task.dto';
 
@@ -27,5 +35,13 @@ export class TasksController {
   @Delete('/:id')
   deleteTask(@Param('id') id: string): void {
     this.tasksService.deleteTask(id);
+  }
+
+  @Patch('/:id/status')
+  updateTaskStatus(
+    @Param('id') id: string, // 👈 use @Param() because we are getting the id from the request params
+    @Body('status') status: TaskStatus, // 👈 use @Body() decorator because we are getting the status from the request body
+  ): Task {
+    return this.tasksService.updateTaskStatus(id, status);
   }
 }

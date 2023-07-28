@@ -50,4 +50,14 @@ export class TasksService {
   }
 
   // UPDATE A TASK
+  updateTaskStatus = (id: string, status: TaskStatus): Task => {
+    // find the task with the same id as the id we passed in
+    const task = this.getTaskById(id);
+
+    // update the status of the task
+    task.status = status;
+
+    // return the updated task
+    return task;
+  };
 }
