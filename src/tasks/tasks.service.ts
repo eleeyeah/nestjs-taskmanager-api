@@ -4,6 +4,13 @@ import { Injectable } from '@nestjs/common';
 import * as uuid from 'uuid'; // this is a library that will generate a unique id for us
 
 // * the Service is a class that will be responsible for handling the business logic of our application.
+// * It will be injected into the Controller.
+// * The Controller will then be responsible for handling the requests and responses.
+// * The Controller will be injected into the Module.
+// * The Module will be responsible for handling the imports and exports of our application.
+// * The Module will be injected into the main.ts file.
+// * The main.ts file will be responsible for starting our application.
+// * The main.ts file will be injected into the root directory of our application.
 
 @Injectable()
 export class TasksService {
@@ -13,6 +20,11 @@ export class TasksService {
   getAllTasks(): Task[] {
     // this method allows the controller to have access to the tasks array
     return this.tasks;
+  }
+
+  // GET TASK BY ID
+  getTaskById(id: string): Task {
+    return this.tasks.find((task) => task.id === id); // find the task with the same id as the id we passed in
   }
 
   // CREATE A TASK
@@ -31,4 +43,11 @@ export class TasksService {
     this.tasks.push(task);
     return task; // return the task to the controller
   }
+
+  // DELETE A TASK
+  deleteTask(id: string): void {
+    this.tasks = this.tasks.filter((task) => task.id !== id); // filter out the task with the same id as the id we passed in
+  }
+
+  // UPDATE A TASK
 }
