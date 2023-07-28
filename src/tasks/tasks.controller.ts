@@ -9,6 +9,8 @@ import {
   Patch,
   Post,
   Query,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createTaskDto } from './dto/create-task.dto';
@@ -39,6 +41,7 @@ export class TasksController {
 
   // handler CREATE TASK
   @Post()
+  @UsePipes(ValidationPipe) // 👈 use @UsePipes() decorator to validate the data we get from the request body
   createTask(@Body() createTaskDto: createTaskDto): Task {
     return this.tasksService.createTask(createTaskDto);
   }
