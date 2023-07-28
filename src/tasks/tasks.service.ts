@@ -1,3 +1,4 @@
+import { createTaskDto } from './dto/create-task.dto';
 import { Task, TaskStatus } from './task.model';
 import { Injectable } from '@nestjs/common';
 import * as uuid from 'uuid'; // this is a library that will generate a unique id for us
@@ -15,15 +16,19 @@ export class TasksService {
   }
 
   // CREATE A TASK
-  createTask(title: string, description: string): Task {
+  createTask(createTaskDto: createTaskDto): Task {
+    // we need to destructure the createTaskDto object
+    const { title, description } = createTaskDto;
+
     const task: Task = {
       id: uuid.v1(), // this will generate a unique id for us
       title,
       description,
       status: TaskStatus.OPEN,
     };
+
     // push the task to the tasks array
     this.tasks.push(task);
-    return task;
+    return task; // return the task to the controller
   }
 }
