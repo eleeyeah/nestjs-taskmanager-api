@@ -1,7 +1,8 @@
-import { createTaskDto } from './dto/create-task.dto';
 import { Task, TaskStatus } from './task.model';
 import { Injectable } from '@nestjs/common';
 import * as uuid from 'uuid'; // this is a library that will generate a unique id for us
+import { createTaskDto } from './dto/create-task.dto';
+import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 
 // * the Service is a class that will be responsible for handling the business logic of our application.
 // * It will be injected into the Controller.
@@ -20,6 +21,30 @@ export class TasksService {
   getAllTasks(): Task[] {
     // this method allows the controller to have access to the tasks array
     return this.tasks;
+  }
+
+  // GET TASKS & FILTER TASKS by status and/or search term
+  getTasksWithFilters(filterDto: GetTasksFilterDto): Task[] {
+    // destructure the filterDto object
+    const { status, search } = filterDto;
+
+    // define a temporary array to hold the result
+    let tasks = this.getAllTasks();
+
+    // filter the tasks by status
+    if (status) {
+      tasks = tasks.filter((task) => task.status === status);
+    }
+
+    // filter the tasks by search term
+    if (search) {
+      tasks = tasks.filter(
+        (task) =>
+          task.title.includes(search) || task.description.includes(search),
+      );
+    }
+
+    return tasks;
   }
 
   // GET TASK BY ID
