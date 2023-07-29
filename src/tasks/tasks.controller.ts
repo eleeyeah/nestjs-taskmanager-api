@@ -23,7 +23,7 @@ export class TasksController {
 
   // handler  GET TASKS & FILTER TASKS by status and/or search term
   @Get()
-  getTasks(@Query() filterDto: GetTasksFilterDto): Task[] {
+  getTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDto): Task[] {
     // if we have any filters defined, call tasksService.getTasksWithFilters
     if (Object.keys(filterDto).length) {
       return this.tasksService.getTasksWithFilters(filterDto);
