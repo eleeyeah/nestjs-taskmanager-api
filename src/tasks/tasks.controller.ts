@@ -15,6 +15,7 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
+import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
 
 @Controller('tasks')
 export class TasksController {
@@ -56,7 +57,7 @@ export class TasksController {
   @Patch('/:id/status')
   updateTaskStatus(
     @Param('id') id: string, // 👈 use @Param() because we are getting the id from the request params
-    @Body('status') status: TaskStatus, // 👈 use @Body() decorator because we are getting the status from the request body
+    @Body('status', TaskStatusValidationPipe) status: TaskStatus, // 👈 use @Body() decorator because we are getting the status from the request body
   ): Task {
     return this.tasksService.updateTaskStatus(id, status);
   }
